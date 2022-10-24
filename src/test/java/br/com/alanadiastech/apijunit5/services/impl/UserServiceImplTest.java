@@ -29,6 +29,7 @@ class UserServiceImplTest {
     public static final String EMAIL = "nome@gmail.com";
     public static final String PASSWORD = "123";
     public static final int INDEX = 0;
+    public static final String EMAIL_JÁ_CADASTRADO = "Email já cadastrado!";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -116,12 +117,36 @@ class UserServiceImplTest {
             service.create(userDto);
         } catch (Exception ex) {
             assertEquals(DataIntegratyViolationException.class, ex.getClass());
-            assertEquals("Email já cadastrado!", ex.getMessage());
+            assertEquals(EMAIL_JÁ_CADASTRADO, ex.getMessage());
         }
     }
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(2);
+            service.create(userDto);
+        } catch (Exception ex) {
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals(EMAIL_JÁ_CADASTRADO, ex.getMessage());
+        }
     }
+
+    @Test
+    void whenUpdateThenReturnDataIntegratyViolationException() {
+        when(repository.save(any())).thenReturn(user);
+
+        User response = service.update(userDto);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
+    }
+
 
     @Test
     void delete() {
@@ -131,7 +156,5 @@ class UserServiceImplTest {
         user = new User(ID, NAME, EMAIL, PASSWORD);
         userDto = new UserDto(ID, NAME, EMAIL, PASSWORD);
         optionalUser = Optional.of(new User(ID, NAME, EMAIL, PASSWORD));
-
-
     }
 }
