@@ -24,7 +24,7 @@ class UserServiceImplTest {
 
     public static final int ID = 1;
     public static final String NAME = "Nome";
-    public static final String EMAIL = "nome@gmaol.com";
+    public static final String EMAIL = "nome@gmail.com";
     public static final String PASSWORD = "123";
 
     @InjectMocks
