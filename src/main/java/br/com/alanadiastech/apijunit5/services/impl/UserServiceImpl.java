@@ -4,6 +4,7 @@ import br.com.alanadiastech.apijunit5.domain.User;
 import br.com.alanadiastech.apijunit5.domain.dto.UserDto;
 import br.com.alanadiastech.apijunit5.repositories.UserRepository;
 import br.com.alanadiastech.apijunit5.services.UserService;
+import br.com.alanadiastech.apijunit5.services.exceptions.DataIntegratyViolationException;
 import br.com.alanadiastech.apijunit5.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDto obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
+    }
+
+    private  void findByEmail(UserDto obj) {
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent()) {
+            throw new DataIntegratyViolationException("E-mail já cadastrado!");
+        }
     }
 }
