@@ -29,8 +29,8 @@ class UserServiceImplTest {
     public static final String EMAIL = "nome@gmail.com";
     public static final String PASSWORD = "123";
     public static final int INDEX = 0;
-    public static final String EMAIL_JÁ_CADASTRADO = "Email já cadastrado!";
-    public static final String OBJETO_NÃO_ENCONTRADO = "Objeto não encontrado.";
+    public static final String EMAIL_JA_CADASTRADO = "Email já cadastrado!";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado.";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -69,18 +69,18 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdReturnAnObjectNotFoundException() {
-        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NÃO_ENCONTRADO));
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
 
         try{
             service.findById(ID);
         } catch(Exception ex) {
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals(OBJETO_NÃO_ENCONTRADO, ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
     }
 
     @Test
-    void WhenFindAllThenReturnAnListOfUsers() {
+    void whenFindAllThenReturnAnListOfUsers() {
         when(repository.findAll()).thenReturn(List.of(user));
 
         List<User> response = service.findAll();
@@ -118,9 +118,10 @@ class UserServiceImplTest {
             service.create(userDto);
         } catch (Exception ex) {
             assertEquals(DataIntegratyViolationException.class, ex.getClass());
-            assertEquals(EMAIL_JÁ_CADASTRADO, ex.getMessage());
+            assertEquals(EMAIL_JA_CADASTRADO, ex.getMessage());
         }
     }
+
     @Test
     void whenUpdateThenReturnSuccess() {
         when(repository.findByEmail(anyString())).thenReturn(optionalUser);
@@ -130,7 +131,7 @@ class UserServiceImplTest {
             service.create(userDto);
         } catch (Exception ex) {
             assertEquals(DataIntegratyViolationException.class, ex.getClass());
-            assertEquals(EMAIL_JÁ_CADASTRADO, ex.getMessage());
+            assertEquals(EMAIL_JA_CADASTRADO, ex.getMessage());
         }
     }
 
@@ -150,7 +151,7 @@ class UserServiceImplTest {
 
 
     @Test
-    void WithSucess() {
+    void withSucess() {
         when(repository.findById(anyInt())).thenReturn(optionalUser);
 
         doNothing().when(repository).deleteById(anyInt());
@@ -162,12 +163,12 @@ class UserServiceImplTest {
 
     @Test
     void deleteWithObjectNotFoundException() {
-        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NÃO_ENCONTRADO));
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
         try{
             service.delete(ID);
         }catch (Exception ex) {
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals(OBJETO_NÃO_ENCONTRADO, ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
     }
 
