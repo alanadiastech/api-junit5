@@ -1,6 +1,8 @@
-package br.vom.alanadiastech.apijunit5.resources;
+package br.com.alanadiastech.apijunit5.resources;
 
-import br.vom.alanadiastech.apijunit5.domain.User;
+import br.com.alanadiastech.apijunit5.domain.User;
+import br.com.alanadiastech.apijunit5.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,10 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserResources {
+public class UserResource {
+
+    @Autowired
+    private UserService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(new User(1, "Alana", "alanadiastech@gmail.com", "123456"));
+        return ResponseEntity.ok().body(service.findById(id));
     }
 }
