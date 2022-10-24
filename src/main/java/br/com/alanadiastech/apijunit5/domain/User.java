@@ -1,4 +1,4 @@
-package br.vom.alanadiastech.apijunit5.domain;
+package br.com.alanadiastech.apijunit5.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

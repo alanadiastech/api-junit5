@@ -1,4 +1,4 @@
-package br.vom.alanadiastech.apijunit5;
+package br.com.alanadiastech.apijunit5;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
