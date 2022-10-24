@@ -3,6 +3,7 @@ package br.com.alanadiastech.apijunit5.services.impl;
 import br.com.alanadiastech.apijunit5.domain.User;
 import br.com.alanadiastech.apijunit5.repositories.UserRepository;
 import br.com.alanadiastech.apijunit5.services.UserService;
+import br.com.alanadiastech.apijunit5.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> obj = repository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 }
